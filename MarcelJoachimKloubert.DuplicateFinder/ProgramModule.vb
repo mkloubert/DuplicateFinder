@@ -58,7 +58,8 @@ Module ProgramModule
                         End If
 
                         If Not Path.IsPathRooted(bashPath) Then
-                            bashPath = Path.Combine(Environment.CurrentDirectory, bashPath)
+                            bashPath = Path.Combine(Environment.CurrentDirectory, _
+                                                    bashPath)
                         End If
 
                         settings.BashScript = New FileInfo(bashPath)
@@ -76,7 +77,8 @@ Module ProgramModule
                         End If
 
                         If Not Path.IsPathRooted(batchPath) Then
-                            batchPath = Path.Combine(Environment.CurrentDirectory, batchPath)
+                            batchPath = Path.Combine(Environment.CurrentDirectory, _
+                                                     batchPath)
                         End If
 
                         settings.WindowsBatch = New FileInfo(batchPath)
@@ -94,10 +96,30 @@ Module ProgramModule
                         End If
 
                         If Not Path.IsPathRooted(phpPath) Then
-                            phpPath = Path.Combine(Environment.CurrentDirectory, phpPath)
+                            phpPath = Path.Combine(Environment.CurrentDirectory, _
+                                                   phpPath)
                         End If
 
                         settings.PhpScript = New FileInfo(phpPath)
+                    ElseIf a.ToLower().Trim() = "/x" Or a.ToLower().Trim() = "/xml" Or a.ToLower().StartsWith("/x:") Or a.ToLower().StartsWith("/xml:") Then
+                        '' XML file
+                        Dim xmlPath As String = Nothing
+
+                        If a.Contains(":") Then
+                            xmlPath = a.Substring(a.IndexOf(":") + 1) _
+                                        .Trim()
+                        End If
+
+                        If String.IsNullOrWhiteSpace(xmlPath) Then
+                            xmlPath = "./DuplicateFinder_duplicates.xml"
+                        End If
+
+                        If Not Path.IsPathRooted(xmlPath) Then
+                            xmlPath = Path.Combine(Environment.CurrentDirectory, _
+                                                   xmlPath)
+                        End If
+
+                        settings.XmlFile = New FileInfo(xmlPath)
                     Else
                         '' handle as directory
 
@@ -174,9 +196,11 @@ Module ProgramModule
         Console.WriteLine()
         Console.WriteLine("    /p:[FILE]         Write PHP script that deletes duplicates.")
         Console.WriteLine()
+        Console.WriteLine("    /r                Scan recursive.")
+        Console.WriteLine()
         Console.WriteLine("    /wb:[FILE]        Write Windows batch file that deletes duplicates.")
         Console.WriteLine()
-        Console.WriteLine("    /r                Scan recursive.")
+        Console.WriteLine("    /x:[FILE]         Write list of duplicates to XML file.")
     End Sub
 
 #End Region

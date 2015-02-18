@@ -26,7 +26,7 @@ Public NotInheritable Class AppSettings
 
 #End Region
 
-#Region "Properties (6)"
+#Region "Properties (7)"
 
     ''' <summary>
     ''' Gets or sets the output file for the BASH script.
@@ -61,6 +61,11 @@ Public NotInheritable Class AppSettings
     ''' Gets or sets the output file for the Windows batch file.
     ''' </summary>
     Public Property WindowsBatch As FileInfo
+
+    ''' <summary>
+    ''' Gets or sets the output file for the XML report.
+    ''' </summary>
+    Public Property XmlFile As FileInfo
 
 #End Region
 
