@@ -39,8 +39,9 @@ Option |  Aliases  | Description  | Example
 /p  | /php  | Create a [PHP file](https://en.wikipedia.org/wiki/PHP) called `DuplicateFinder_del_duplicates.php` in the current directory that deletes the found duplicates.  | `/p`
 /r  | /recursive  | Also scan subdirectories.  | `/r`
 /wb  | /batch  | Create a [Windows batch](https://en.wikipedia.org/wiki/Batch_file) file called `DuplicateFinder_del_duplicates.cmd` in the current directory that deletes the found duplicates.  | `/wb`
+/x  | /xml  | Write list of duplicates to [XML](https://en.wikipedia.org/wiki/XML) file called `DuplicateFinder_duplicates.xml` in the current directory.  | `/x`
 
-You can define custom output files when you use `/b`, `/p` or `/wb` option:
+You can define custom output files when you use `/b`, `/p`, `/wb` or `/x` option:
 
 ```dos
 DuplicateFinder C:\dir_to_scan /wb:C:\myBatchFile.cmd
