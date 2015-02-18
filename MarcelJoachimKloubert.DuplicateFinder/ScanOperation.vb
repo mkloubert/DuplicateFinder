@@ -235,7 +235,7 @@ Public NotInheritable Class ScanOperation
             End Try
         End If
 
-        '' Windows batch?
+        '' PHP script?
         If Me.Settings.PhpScript IsNot Nothing Then
             Try
                 Console.Write("Create PHP script in '{0}'... ", Me.Settings.PhpScript.FullName)
