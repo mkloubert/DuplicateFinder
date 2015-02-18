@@ -70,9 +70,8 @@ Public NotInheritable Class ScanOperation
                 If existingEntry Is Nothing Then
                     knownFiles.Add(hashed)
 
-                    ConsoleHelper.InvokeForColor(Sub()
-                                                     Console.WriteLine("[OK]")
-                                                 End Sub, ConsoleColor.Green)
+                    ConsoleHelper.InvokeForColor(Sub() Console.WriteLine("[OK]"), _
+                                                 ConsoleColor.Green)
                 Else
                     existingEntry.AddDuplicate(hashed)
 
@@ -127,9 +126,8 @@ Public NotInheritable Class ScanOperation
                         file.Delete()
                     End If
 
-                    ConsoleHelper.InvokeForColor(Sub()
-                                                     Console.WriteLine("[OK]")
-                                                 End Sub, ConsoleColor.Green)
+                    ConsoleHelper.InvokeForColor(Sub() Console.WriteLine("[OK]"), _
+                                                 ConsoleColor.Green)
                 Catch ex As Exception
                     ConsoleHelper.InvokeForColor(Sub()
                                                      Console.WriteLine("[ERROR: {0}]", _
@@ -175,9 +173,8 @@ Public NotInheritable Class ScanOperation
                         Next
                     End Using
 
-                    ConsoleHelper.InvokeForColor(Sub()
-                                                     Console.WriteLine("[OK]")
-                                                 End Sub, ConsoleColor.Green)
+                    ConsoleHelper.InvokeForColor(Sub() Console.WriteLine("[OK]"), _
+                                                 ConsoleColor.Green)
                 End Using
             Catch ex As Exception
                 ConsoleHelper.InvokeForColor(Sub()
@@ -223,9 +220,8 @@ Public NotInheritable Class ScanOperation
                         Next
                     End Using
 
-                    ConsoleHelper.InvokeForColor(Sub()
-                                                     Console.WriteLine("[OK]")
-                                                 End Sub, ConsoleColor.Green)
+                    ConsoleHelper.InvokeForColor(Sub() Console.WriteLine("[OK]"), _
+                                                 ConsoleColor.Green)
                 End Using
             Catch ex As Exception
                 ConsoleHelper.InvokeForColor(Sub()
@@ -269,9 +265,8 @@ Public NotInheritable Class ScanOperation
                         Next
                     End Using
 
-                    ConsoleHelper.InvokeForColor(Sub()
-                                                     Console.WriteLine("[OK]")
-                                                 End Sub, ConsoleColor.Green)
+                    ConsoleHelper.InvokeForColor(Sub() Console.WriteLine("[OK]"), _
+                                                 ConsoleColor.Green)
                 End Using
             Catch ex As Exception
                 ConsoleHelper.InvokeForColor(Sub()
@@ -285,6 +280,9 @@ Public NotInheritable Class ScanOperation
         If withDuplicates.Length > 0 Then
             duplicateLineColor = ConsoleColor.Yellow
         End If
+
+        Console.WriteLine()
+        Console.WriteLine()
 
         Console.WriteLine("Summary")
         Console.WriteLine("======================")

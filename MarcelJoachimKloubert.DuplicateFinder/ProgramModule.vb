@@ -21,12 +21,8 @@ Module ProgramModule
 
             Dim settings As AppSettings = New AppSettings()
 
-            Dim normalizedArgs As String() = args.Select(Function(x)
-                                                             Return x.Trim()
-                                                         End Function) _
-                                                 .Where(Function(x)
-                                                            Return x <> String.Empty
-                                                        End Function) _
+            Dim normalizedArgs As String() = args.Select(Function(x) x.Trim()) _
+                                                 .Where(Function(x) x <> String.Empty) _
                                                  .ToArray()
 
             If normalizedArgs.Length < 1 Then
