@@ -23,6 +23,12 @@ Scans a directory recursive:
 DuplicateFinder C:\dir_with_files /r
 ```
 
+You can define more than one directory:
+
+```dos
+DuplicateFinder C:\dir1 D:\dir2 E:\3rd_directory
+```
+
 ### Options
 
 Option |  Aliases  | Description  | Example  
