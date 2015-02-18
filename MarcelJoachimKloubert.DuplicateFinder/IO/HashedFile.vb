@@ -115,13 +115,13 @@ Public NotInheritable Class HashedFile
     Public Function AddDuplicate(duplicate As HashedFile) As Boolean
         If Not Object.ReferenceEquals(duplicate, Me) Then
             SyncLock Me._SYNC
-                If Not Me._DUPLICATES.Any(Function(x As HashedFile) As Boolean
+                If Not Me._DUPLICATES.Any(Function(x)
                                               Return Object.ReferenceEquals(x, duplicate)
                                           End Function) Then
 
-                    If Not Me._DUPLICATEOF.Any(Function(x As HashedFile) As Boolean
-                                                   Return Object.ReferenceEquals(x, Me)
-                                               End Function) Then
+                    If Not duplicate._DUPLICATEOF.Any(Function(x)
+                                                          Return Object.ReferenceEquals(x, Me)
+                                                      End Function) Then
 
                         duplicate._DUPLICATEOF.Add(Me)
                     End If
