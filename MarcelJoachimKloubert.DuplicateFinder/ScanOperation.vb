@@ -44,48 +44,62 @@ Public NotInheritable Class ScanOperation
 #Region "Methods (2)"
 
     Private Sub ScanDirectory(dir As DirectoryInfo, knownFiles As HashSet(Of HashedFile))
-        If Me.Settings.Recursive Then
-            For Each subDir As DirectoryInfo In dir.EnumerateDirectories()
-                Me.ScanDirectory(subDir, knownFiles)
-            Next
-        End If
+        Try
+            Console.WriteLine("Entering directory '{0}'... ",
+                              dir.FullName)
 
-        For Each file As FileInfo In dir.EnumerateFiles() _
-                                        .OrderBy(Function(x)
-                                                     Return x.FullName.Length
-                                                 End Function) _
-                                        .ThenBy(Function(x)
-                                                    Return x.FullName
-                                                End Function, StringComparer.CurrentCultureIgnoreCase)
+            If Me.Settings.Recursive Then
+                For Each subDir As DirectoryInfo In dir.EnumerateDirectories() _
+                                                       .OrderBy(Function(x) x.FullName,
+                                                                StringComparer.CurrentCultureIgnoreCase)
+                    Try
+                        Me.ScanDirectory(subDir, knownFiles)
+                    Catch ex As Exception
+                        ConsoleHelper.InvokeForColor(Sub()
+                                                         Console.WriteLine("[ERROR: {0}]", _
+                                                                           ex.GetType().FullName)
+                                                     End Sub, ConsoleColor.Red)
+                    End Try
+                Next
+            End If
 
-            Try
-                Console.Write("Checking '{0}'... ", file.FullName)
+            For Each file As FileInfo In dir.EnumerateFiles() _
+                                            .OrderBy(Function(x) x.FullName.Length) _
+                                            .ThenBy(Function(x) x.FullName,
+                                                    StringComparer.CurrentCultureIgnoreCase)
 
-                Dim hashed As HashedFile = HashedFile.FromPath(file.FullName)
+                Try
+                    Console.Write("Checking '{0}'... ", file.FullName)
 
-                Dim existingEntry As HashedFile = knownFiles.FirstOrDefault(Function(x)
-                                                                                Return x = hashed
-                                                                            End Function)
+                    Dim hashed As HashedFile = HashedFile.FromPath(file.FullName)
 
-                If existingEntry Is Nothing Then
-                    knownFiles.Add(hashed)
+                    Dim existingEntry As HashedFile = knownFiles.FirstOrDefault(Function(x) x = hashed)
 
-                    ConsoleHelper.InvokeForColor(Sub() Console.WriteLine("[OK]"), _
-                                                 ConsoleColor.Green)
-                Else
-                    existingEntry.AddDuplicate(hashed)
+                    If existingEntry Is Nothing Then
+                        knownFiles.Add(hashed)
 
+                        ConsoleHelper.InvokeForColor(Sub()
+                                                         Console.WriteLine("[OK]")
+                                                     End Sub, _
+                                                     ConsoleColor.Green)
+                    Else
+                        existingEntry.AddDuplicate(hashed)
+
+                        ConsoleHelper.InvokeForColor(Sub()
+                                                         Console.WriteLine("[DUPLICATE!]")
+                                                     End Sub, ConsoleColor.Yellow)
+                    End If
+                Catch ex As Exception
                     ConsoleHelper.InvokeForColor(Sub()
-                                                     Console.WriteLine("[DUPLICATE!]")
-                                                 End Sub, ConsoleColor.Yellow)
-                End If
-            Catch ex As Exception
-                ConsoleHelper.InvokeForColor(Sub()
-                                                 Console.WriteLine("[ERROR: {0}]", _
-                                                                   ex.GetType().FullName)
-                                             End Sub, ConsoleColor.Red)
-            End Try
-        Next
+                                                     Console.WriteLine("[ERROR: {0}]", _
+                                                                       ex.GetType().FullName)
+                                                 End Sub, ConsoleColor.Red)
+                End Try
+            Next
+        Finally
+            Console.WriteLine("Leaving directory '{0}'... ",
+                              dir.FullName)
+        End Try
     End Sub
 
     ''' <summary>

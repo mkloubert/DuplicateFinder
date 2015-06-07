@@ -115,14 +115,8 @@ Public NotInheritable Class HashedFile
     Public Function AddDuplicate(duplicate As HashedFile) As Boolean
         If Not Object.ReferenceEquals(duplicate, Me) Then
             SyncLock Me._SYNC
-                If Not Me._DUPLICATES.Any(Function(x)
-                                              Return Object.ReferenceEquals(x, duplicate)
-                                          End Function) Then
-
-                    If Not duplicate._DUPLICATEOF.Any(Function(x)
-                                                          Return Object.ReferenceEquals(x, Me)
-                                                      End Function) Then
-
+                If Not Me._DUPLICATES.Any(Function(x) Object.ReferenceEquals(x, duplicate)) Then
+                    If Not duplicate._DUPLICATEOF.Any(Function(x) Object.ReferenceEquals(x, Me)) Then
                         duplicate._DUPLICATEOF.Add(Me)
                     End If
 
@@ -139,7 +133,7 @@ Public NotInheritable Class HashedFile
     Public Overloads Function Equals(other As HashedFile) As Boolean Implements IEquatable(Of HashedFile).Equals
         If other IsNot Nothing Then
             Return (other._SIZE = Me._SIZE) AndAlso _
-                   (other._HASH.SequenceEqual(Me._HASH))
+                   other._HASH.SequenceEqual(Me._HASH)
         End If
 
         Return False
@@ -180,10 +174,22 @@ Public NotInheritable Class HashedFile
 
 #Region "Operatoes (2)"
 
+    ''' <summary>
+    ''' Compares two objects if they are equal.
+    ''' </summary>
+    ''' <param name="left">The left object.</param>
+    ''' <param name="right">The right object.</param>
+    ''' <returns>Are equal or not.</returns>
     Public Shared Operator =(left As HashedFile, right As HashedFile) As Boolean
         Return Object.Equals(left, right)
     End Operator
 
+    ''' <summary>
+    ''' Compares two objects if they are NOT equal.
+    ''' </summary>
+    ''' <param name="left">The left object.</param>
+    ''' <param name="right">The right object.</param>
+    ''' <returns>Are equal (<see langword="False" />) or not (<see langword="True" />).</returns>
     Public Shared Operator <>(left As HashedFile, right As HashedFile) As Boolean
         Return Not left = right
     End Operator
