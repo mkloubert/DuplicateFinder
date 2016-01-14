@@ -117,7 +117,9 @@ Public NotInheritable Class HashedFile
             SyncLock Me._SYNC
                 If Not Me._DUPLICATES.Any(Function(x) Object.ReferenceEquals(x, duplicate)) Then
                     If Not duplicate._DUPLICATEOF.Any(Function(x) Object.ReferenceEquals(x, Me)) Then
-                        duplicate._DUPLICATEOF.Add(Me)
+                        SyncLock duplicate._SYNC
+                            duplicate._DUPLICATEOF.Add(Me)
+                        End SyncLock
                     End If
 
                     Me._DUPLICATES.Add(duplicate)
@@ -172,7 +174,7 @@ Public NotInheritable Class HashedFile
 
 #End Region
 
-#Region "Operatoes (2)"
+#Region "Operators (2)"
 
     ''' <summary>
     ''' Compares two objects if they are equal.

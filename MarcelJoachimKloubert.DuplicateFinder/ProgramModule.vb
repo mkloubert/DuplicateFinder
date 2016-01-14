@@ -19,7 +19,7 @@ Module ProgramModule
 
             Dim actionToInvoke As Action = Nothing
 
-            Dim settings As AppSettings = New AppSettings()
+            Dim settings = New AppSettings()
 
             Dim normalizedArgs As String() = args.Select(Function(x) x.Trim()) _
                                                  .Where(Function(x) x <> String.Empty) _
@@ -29,7 +29,7 @@ Module ProgramModule
                 settings.Directories _
                         .Add(New DirectoryInfo(Environment.CurrentDirectory))
             Else
-                For i As Integer = 1 To normalizedArgs.Length
+                For i = 1 To normalizedArgs.Length
                     Dim a As String = normalizedArgs(i - 1).TrimStart()
 
                     If a.ToLower().Trim() = "/r" Or a.ToLower().Trim() = "/recursive" Then
@@ -137,7 +137,7 @@ Module ProgramModule
 
             If settings IsNot Nothing Then
                 actionToInvoke = Sub()
-                                     Dim operation As ScanOperation = New ScanOperation(settings)
+                                     Dim operation = New ScanOperation(settings)
                                      operation.Start()
                                  End Sub
             End If

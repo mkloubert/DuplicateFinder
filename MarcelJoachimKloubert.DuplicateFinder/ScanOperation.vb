@@ -254,10 +254,10 @@ Public NotInheritable Class ScanOperation
                         writer.WriteLine("// FILE: '{0}'", file.Path)
                         writer.WriteLine("// ID  : {0}::{1}", file.HashString, file.Size)
                         writer.WriteLine("// ")
-                        writer.WriteLine("// unlink(""{0}"")", file.Path.Replace("\", "\\"))
+                        writer.WriteLine("// unlink(""{0}"");", file.Path.Replace("\", "\\"))
 
                         For Each duplicate As HashedFile In file.Duplicates
-                            writer.WriteLine("unlink(""{0}"")", duplicate.Path.Replace("\", "\\"))
+                            writer.WriteLine("unlink(""{0}"");", duplicate.Path.Replace("\", "\\"))
                         Next
                     Next
                 End Using
